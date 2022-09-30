@@ -31,6 +31,24 @@ const getWeatherDataFromApi = async () => {
   const iconUrl = `http://openweathermap.org/img/wn/${weather[0].icon}@2x.png`;
   const iconUrlAWS = `https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0].icon}.svg`;
 
+  const cityNameSpans = list.querySelectorAll(".city span");
+
+  const cityNameSpansArray = Array.from(cityNameSpans);
+
+  if (cityNameSpansArray.length > 0) {
+    const filteredArray = cityNameSpansArray.filter(
+      (span) => span.innerText == name
+    );
+    if (filteredArray.length > 0) {
+      msg.innerText = `you already ${name} 's weather`;
+      setTimeout(() => {
+        msg.innerText = "";
+      }, 5000);
+      form.reset();
+      return;
+    }
+  }
+
   const createdli = document.createElement("li");
   createdli.classList.add("city");
 
@@ -46,6 +64,7 @@ const getWeatherDataFromApi = async () => {
 </figure>
 
 `;
+  console.log(cityNameSpansArray);
 
   list.prepend(createdli);
   form.reset();
